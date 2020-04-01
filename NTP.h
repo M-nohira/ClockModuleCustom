@@ -1,21 +1,7 @@
 #include <Arduino.h>
 #include <WiFiUdp.h>
+#include <WiFi.h>
 #include <IPAddress.h>
-
-class NTP
-{
-private:
-    IPAddress _address;
-    WiFiUDP udp;
-    const int port = 123;
-    byte ntpPacket[48];
-
-public:
-    void SendTimeReq();
-
-    NTP(IPAddress addr);
-    ~NTP();
-};
 
 typedef struct NtpPacket
 {
@@ -32,7 +18,22 @@ typedef struct NtpPacket
     uint64_t OriginTimestamp;
     uint64_t ReceiveTimestamp;
     uint64_t TransmitTimestamp;
+    
+    NtpPacket ConvertFromBytes(byte* buffer);
+    byte *ConvertToBytes(NtpPacket packet);
+};
 
-    static NtpPacket ParseFromBytes();
-    static byte *ParseToBytes();
+class NTP
+{
+private:
+    IPAddress _address;
+    WiFiUDP udp;
+    const int port = 123;
+    byte ntpPacket[48];
+
+public:
+    void SendPacket(NtpPacket packet);
+
+    NTP(IPAddress addr);
+    ~NTP();
 };

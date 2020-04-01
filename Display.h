@@ -25,7 +25,7 @@ private:
     const byte MD = 0b00110000;
     const byte ALRAM = 0b00000001;
 
-    constexpr static const byte SEGMENT[20] =
+    byte SEGMENT[20] =
         {
             //12345678
             0b00111111, //0
